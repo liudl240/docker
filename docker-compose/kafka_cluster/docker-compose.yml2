@@ -1,0 +1,69 @@
+version: '2'
+services:
+  broker1: 
+    image: quotes:0.1.9
+    container_name: broker1
+    ports:
+      - "19011:22"
+      - "30001:8085"
+      - "40001:9092"
+    volumes:
+        - /lib64:/lib64
+        - /mnt/Quotes/:/mnt/Quotes/
+        - /etc/hosts:/etc/hosts 
+    ulimits:
+      nofile:
+        soft: "1000000"
+        hard: "1000000"
+      core:   
+        soft: "1000000000"
+        hard: "1000000000"
+    stdin_open: true
+    tty: true
+    restart: always
+  broker2: 
+    image: quotes:0.1.9
+    container_name: broker2
+    depends_on:
+      - broker1
+    ports:
+      - "19012:22"  
+      - "30002:8085"
+      - "40002:9092"
+    volumes:
+        - /lib64:/lib64
+        - /mnt/Quotes/:/mnt/Quotes/
+        - /etc/hosts:/etc/hosts 
+    ulimits:
+      nofile:
+        soft: "1000000"
+        hard: "1000000"
+      core:   
+        soft: "1000000000"
+        hard: "1000000000"
+    stdin_open: true
+    tty: true
+    restart: always
+  broker3: 
+    image: quotes:0.1.9
+    container_name: broker3
+    depends_on:
+      - broker2
+    ports:
+      - "19013:22"
+      - "30003:8085"
+      - "40003:9092"
+    volumes:
+        - /lib64:/lib64
+        - /mnt/Quotes/:/mnt/Quotes/
+        - /etc/hosts:/etc/hosts 
+    ulimits:
+      nofile:
+        soft: "1000000"
+        hard: "1000000"
+      core:   
+        soft: "1000000000"
+        hard: "1000000000"
+    tty: true
+    stdin_open: true
+    restart: always
